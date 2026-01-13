@@ -4,89 +4,91 @@ import time
 import itertools
 import string
 
-# ألوان الشيطان
-R = '\033[1;31m'
-G = '\033[1;32m'
-Y = '\033[1;33m'
-C = '\033[1;36m'
-W = '\033[0m'
+# ألوان التنسيق
+R = '\033[1;31m' # أحمر
+G = '\033[1;32m' # أخضر
+Y = '\033[1;33m' # أصفر
+C = '\033[1;36m' # سماوي
+W = '\033[1;37m' # أبيض
+RESET = '\033[0m'
 
 def logo():
     os.system('clear')
+    # رسمة الجمجمة الجديدة (القرصان)
     print(R + """
-      .---.              .-----------.
-     /     \\    __      /    .---.    \\
-    / /     \\  (  )    /    /     \\    \\
-   //////    ' \\/ `   //////      |
-  //// [  PIRATE-S720 ] ////      |
- //////      (☠️ )    //////       /
-      `----------'            /
-     _______WIFI-DEVIL_______/
+                          ______
+                       .-"      "-.
+                      /            \\
+                     |              |
+                     |,  .-.  .-.  ,|
+                     | )(__/  \__)( |
+                     |/     /\     \|
+           _         (_     ^^     _)        _
+          / \         \__|IIIIII|__/        / \\
+         |   |         | \IIIIII/ |        |   |
+         \    \_       \          /      _/    /
+          \     "---____"----------"____---"     /
+           \                                   /
+            "---____Pirate-S720_v2.0____---"
     """ + Y + """
-   [☠️ ] MODE: SUPER-FAST BRUTE FORCE
-   [☠️ ] STATUS: OVERCLOCKING...
-   -----------------------------------------
-    """ + W)
+     [☠️ ] Dev: Gathan | [☠️ ] Type: Ultra Brute Force
+    -----------------------------------------------
+    """ + RESET)
 
-def super_brute_force():
-    logo()
-    print(R + "[!] بدء هجوم التخمين الشامل (Ultra Fast)..." + W)
-    ssid = input(C + "[+] اسم الشبكة المستهدفة: " + W)
+def brute_force():
+    ssid = input(C + "[+] اسم الشبكة المستهدفة: " + RESET)
+    print(R + "[*] بدء محرك التخمين الشامل (0-9 / A-Z / a-z)..." + RESET)
     
-    # تحديد نطاق الرموز المطلوبة
-    charset = string.digits + string.ascii_letters # يشمل 0-9 و A-Z و a-z
-    
-    print(Y + f"[*] جارٍ اختبار الاحتمالات لشبكة {ssid}..." + W)
-    print(Y + "[*] الرموز المستخدمة: الأرقام والحروف (كبير/صغير)\n" + W)
+    # قائمة الرموز الشاملة: أرقام + حروف كبيرة + حروف صغيرة
+    chars = string.digits + string.ascii_letters
     
     count = 0
     start_time = time.time()
-
-    # توليد وتجربة الرموز بطول يبدأ من 8 (الحد الأدنى للواي فاي)
+    
     try:
-        for length in range(8, 13): # سيجرب الرموز بطول 8 ثم 9... حتى 12
-            for attempt in itertools.product(charset, repeat=length):
+        # التخمين يبدأ من طول 8 رموز (الحد الأدنى للواي فاي)
+        for length in range(8, 13):
+            for attempt in itertools.product(chars, repeat=length):
                 password = "".join(attempt)
                 
-                # طباعة التخمين الحالي (تحديث في نفس السطر للسرعة)
-                sys.stdout.write(f"\r{W}[-] جاري التجربة: {G}{password}{W} | المحاولات: {Y}{count}{W}")
+                # طباعة التخمين الحالي بسرعة فائقة في نفس السطر
+                sys.stdout.write(f"\r{W}[-] فحص الرمز: {G}{password}{RESET} | محاولات: {Y}{count}{RESET}")
                 sys.stdout.flush()
                 
                 count += 1
                 
-                # ملاحظة تقنية: في الهجوم الفعلي يتم ربط هذه الحلقة بأداة ربط (Connect)
-                # للتبسيط، سنحاكي سرعة المعالجة العالية هنا
-                if password == "ali12345": # مثال لرمز ناجح للبيان
+                # شرط توقف افتراضي للتجربة (يمكنك تغييره)
+                if password == "ali12345":
                     end_time = time.time()
-                    print(G + f"\n\n[✔] تم العثور على الرمز بنجاح لـ {ssid}!" + W)
-                    print(G + f"[✔] الرمز هو: " + R + password + W)
-                    print(Y + f"[*] الوقت المستغرق: {round(end_time - start_time, 2)} ثانية.")
+                    print(f"\n\n{G}[✔] تم كسر التشفير! الرمز هو: {R}{password}{RESET}")
+                    print(f"{Y}[*] الوقت المستغرق: {round(end_time - start_time, 2)} ثانية.")
                     return
-                
-                # لزيادة السرعة القصوى، لا نضع time.sleep
     except KeyboardInterrupt:
-        print(R + "\n\n[!] تم إيقاف الهجوم من قبل المستخدم." + W)
+        print(R + "\n\n[!] تم إيقاف الهجوم يدوياً." + RESET)
 
 def main():
     logo()
-    print(G + "[1] " + W + "التخمين الخارق (أرقام + حروف كبيرة وصغيرة)")
-    print(G + "[2] " + W + "فتح بوابة الراوتر (أسرع طريقة فعالة)")
-    print(G + "[3] " + W + "إنشاء باركود QR للصيد")
+    print(G + "[1] " + W + "التخمين الخارق (أرقام + حروف)")
+    print(G + "[2] " + W + "فتح بوابة الراوتر (IP Gateway)")
+    print(G + "[3] " + W + "إنشاء فخ باركود QR")
     print(R + "[4] " + W + "خروج")
     
-    choice = input("\n" + R + "[PIRATE@720]:# " + W)
+    choice = input("\n" + R + "[PIRATE@720]:# " + RESET)
     
     if choice == '1':
-        super_brute_force()
+        brute_force()
         input("\nاضغط Enter للعودة..."); main()
     elif choice == '2':
-        os.system(f"termux-open-url http://192.168.1.1")
+        gate = input(C + "[+] أدخل البوابة (مثلاً 192.168.1.1): " + RESET)
+        os.system(f"termux-open-url http://{gate}")
         main()
     elif choice == '3':
-        # كود الباركود السابق
-        main()
+        name = input(C + "[+] اسم شبكة الفخ: " + RESET)
+        pw = input(C + "[+] رمز الفخ: " + RESET)
+        os.system(f"qrencode -t ANSI256 'WIFI:S:{name};T:WPA;P:{pw};;'")
+        input("\nاضغط Enter للعودة..."); main()
     elif choice == '4':
-        sys.exit()
+        sys.exit(R + "وداعاً أيها القرصان." + RESET)
     else:
         main()
 
